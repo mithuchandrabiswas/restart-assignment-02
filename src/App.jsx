@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
-import Navbar    from './components/Navbar';
-import StatsRow  from './components/StatsRow';
+import Navbar     from './components/Navbar';
+import StatsRow   from './components/StatsRow';
 import TicketCard from './components/TicketCard';
-import Sidebar   from './components/Sidebar';
-import Modal     from './components/Modal';
-import Footer    from './components/Footer';
+import Sidebar    from './components/Sidebar';
+import Modal      from './components/Modal';
+import Footer     from './components/Footer';
 
 import INITIAL_TICKETS from './data/tickets';
 import { formatDate }  from './utils/helpers';
@@ -21,9 +22,11 @@ function App() {
   const [modalOpen, setModal]   = useState(false);
   const [selected, setSelected] = useState(null);
 
-  /* Click a ticket → move to Task Status (In-Progress) */
   const handleSelect = (id) => {
-    if (tasks.find((t) => t.id === id)) return; // already in tasks
+    if (tasks.find((t) => t.id === id)) {
+      toast.info('This ticket is already in progress.');
+      return;
+    }
     const ticket = tickets.find((t) => t.id === id);
     if (!ticket) return;
 
@@ -32,18 +35,18 @@ function App() {
     setTickets((prev) =>
       prev.map((t) => (t.id === id ? { ...t, status: 'In-Progress' } : t))
     );
+    toast.warning(`Ticket #${id} moved to In-Progress.`);
   };
 
-  /* Resolve a task */
   const handleResolve = (id) => {
     const task = tasks.find((t) => t.id === id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
     setResolved((prev) => [...prev, { ...task, status: 'Resolved' }]);
     setTickets((prev) => prev.filter((t) => t.id !== id));
     if (selected === id) setSelected(null);
+    toast.success(`Ticket #${id} has been resolved!`);
   };
 
-  /* Create a new ticket from modal */
   const handleCreate = (form) => {
     const newTicket = {
       id:       UID++,
@@ -56,6 +59,7 @@ function App() {
     };
     setTickets((prev) => [newTicket, ...prev]);
     setModal(false);
+    toast.success(`New ticket "${form.title}" created successfully!`);
   };
 
   return (
@@ -68,7 +72,6 @@ function App() {
       />
 
       <div className="layout">
-        {/* Ticket Grid */}
         <div>
           <div className="section-title">Customer Tickets</div>
           <div className="tickets-grid">
@@ -83,7 +86,6 @@ function App() {
           </div>
         </div>
 
-        {/* Sidebar */}
         <Sidebar
           tasks={tasks}
           resolved={resolved}
@@ -97,6 +99,15 @@ function App() {
         open={modalOpen}
         onClose={() => setModal(false)}
         onSubmit={handleCreate}
+      />
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
       />
     </>
   );

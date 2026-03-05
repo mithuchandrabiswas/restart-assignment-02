@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import '../styles/Modal.css';
 
 const EMPTY_FORM = { title: '', desc: '', name: '', priority: 'MEDIUM' };
@@ -12,7 +13,7 @@ function Modal({ open, onClose, onSubmit }) {
 
   const handleSubmit = () => {
     if (!form.title.trim() || !form.name.trim()) {
-      alert('Title and Customer Name are required.');
+      toast.error('Title and Customer Name are required.');
       return;
     }
     onSubmit(form);
