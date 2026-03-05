@@ -1,11 +1,11 @@
 import '../styles/Navbar.css';
 
-const NAV_LINKS = ["Home", "FAQ", "Changelog", "Blog", "Download", "Contact"];
+const NAV_LINKS = ["Home", "FAQ", "Changelog", "Blog", "Contact"];
 
 function Navbar({ onNewTicket }) {
   return (
     <nav className="nav">
-      <div className="nav-logo">CS — Ticket System</div>
+      <div className="nav-logo">Ticket System</div>
 
       <ul className="nav-links">
         {NAV_LINKS.map((link) => (
