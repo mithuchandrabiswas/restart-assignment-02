@@ -1,5 +1,6 @@
 import '../styles/Navbar.css';
 
+// Menu Title
 const NAV_LINKS = ["Home", "FAQ", "Changelog", "Blog", "Contact"];
 
 function Navbar({ onNewTicket }) {
