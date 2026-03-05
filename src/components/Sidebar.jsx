@@ -1,6 +1,7 @@
 import { getPriorityClass } from '../utils/helpers';
 import '../styles/Sidebar.css';
 
+// Sidebar Function
 function Sidebar({ tasks, resolved, onResolve }) {
   return (
     <div className="sidebar">
